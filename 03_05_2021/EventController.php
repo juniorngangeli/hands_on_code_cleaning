@@ -21,7 +21,14 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::with(['arbitration_area','division','stage','stade','teams','competition_instance', 'eventSuspensions.sportsman'])->get();
+        //TODO: should be less longer
+        $events = Event::with([
+            'arbitration_area',
+            'division',
+            'stage',
+            'stade',
+            'teams',
+            'competition_instance', 'eventSuspensions.sportsman'])->get();
         return response()->json($events , 200);
     }
 
@@ -40,6 +47,7 @@ class EventController extends Controller
         $this->storeImage($result);
         return response()->json($result, 200);
     }
+    //TODO: change name to storeMultipleEvents
     public function storeMultiple(){
         request()->validate([
           'events'                                  => 'required|Array',
@@ -74,8 +82,10 @@ class EventController extends Controller
             // on crée l'évènement
             $newEvent = Event::create($event) ;
             // on rajoute les teams associés
+            //TODO: 
             if(isset($event['teams']))
             {
+                //TODO: Could we replace * 
                 if(isset($event['teams'][0]) && $event['teams'][0] == "*"){
                     $competitionInstance = CompetitionInstance::where('id',$event['competition_instance_id'])->first();
                     $newEvent->teams()->attach($competitionInstance->competition->teams->pluck('id')) ;
@@ -94,6 +104,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        //TODO: less longer
         $data = Event::with(['arbitration_area','division','stage','stade','competition_instance', 'eventSuspensions.sportsman'])
         ->where('id',$event->id)->first();
         return response()->json($data, 200);
@@ -243,6 +254,7 @@ class EventController extends Controller
         'nb_referee'=>'nullable|integer'
         ]);
     }
+    
     public function updatevalidator(){
         return request()->validate([
             'name' => 'nullable|string|max:255',

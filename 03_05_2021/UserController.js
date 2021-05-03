@@ -24,10 +24,12 @@ export default {
           if (err) {
             console.log(err);
           }
-          const data = {
+
+          const userFormInput = {
             ...req.body,
             password: hashedPassword,
           };
+
           const user = await User.create(data, { fields: User.fillable });
           res.status(201).json(user);
         });
@@ -73,6 +75,7 @@ export default {
           if (err) {
             console.log(err);
           }
+
           const data = {
             ...req.body,
             password: hashedPassword,
