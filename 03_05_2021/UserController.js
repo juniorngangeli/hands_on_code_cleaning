@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const models = require("../models/index");
 const User = models.User;
+
 export default {
   index: async (req, res) => {
     try {
